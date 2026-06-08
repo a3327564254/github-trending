@@ -65,11 +65,8 @@ export function RepoCard({ repo, index }: RepoCardProps) {
   };
 
   return (
-    <a
-      href={repo.html_url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`animate-slide-up ${delayClass} group flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-4 sm:p-5 transition-all duration-200 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-card-hover)] hover:shadow-lg hover:shadow-black/5 active:scale-[0.98]`}
+    <div
+      className={`animate-slide-up ${delayClass} group flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-4 sm:p-5 transition-all duration-200 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-card-hover)] hover:shadow-lg hover:shadow-black/5 cursor-pointer active:scale-[0.98]`}
     >
       {/* Header: avatar + name + action buttons */}
       <div className="mb-3 flex items-start justify-between gap-3">
@@ -174,6 +171,6 @@ export function RepoCard({ repo, index }: RepoCardProps) {
           ))}
         </div>
       )}
-    </a>
+    </div>
   );
 }
