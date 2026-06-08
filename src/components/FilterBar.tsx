@@ -106,7 +106,7 @@ export function FilterBar({
           <select
             value={selectedLanguage || ''}
             onChange={(e) => setSelectedLanguage(e.target.value || null)}
-            className="rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer flex-shrink-0"
+            className="w-24 rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-2 py-2 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer flex-shrink-0 truncate"
           >
             <option value="">语言</option>
             {languages.map((lang) => (
@@ -118,7 +118,7 @@ export function FilterBar({
           <select
             value={selectedTopic || ''}
             onChange={(e) => setSelectedTopic(e.target.value || null)}
-            className="rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer flex-shrink-0"
+            className="w-24 rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-2 py-2 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer flex-shrink-0 truncate"
           >
             <option value="">主题</option>
             {topics.map((topic) => (
