@@ -1,0 +1,20 @@
+{
+  "name": "GitHub 热门项目",
+  "short_name": "GitHub Trending",
+  "description": "实时追踪 GitHub 热门开源项目",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#34d399",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["developer", "utilities"],
+  "lang": "zh-CN"
+}

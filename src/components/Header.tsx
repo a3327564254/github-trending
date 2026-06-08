@@ -1,9 +1,11 @@
-import { GithubLogo, Translate } from '@phosphor-icons/react';
+import { GithubLogo, Translate, BookmarkSimple } from '@phosphor-icons/react';
 import { ThemeToggle } from './ThemeToggle';
 import { useTranslation } from '../context/TranslationContext';
+import { useFavorites } from '../context/FavoritesContext';
 
 export function Header() {
   const { enabled, toggle } = useTranslation();
+  const { favorites, setShowFavorites } = useFavorites();
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[var(--color-header-bg)] backdrop-blur-xl backdrop-saturate-150 shadow-[inset_0_-1px_0_rgba(255,255,255,0.05)]">
@@ -16,6 +18,22 @@ export function Header() {
         </a>
 
         <div className="flex items-center gap-2">
+          {/* Favorites button */}
+          <button
+            onClick={() => setShowFavorites(true)}
+            className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:text-amber-400 hover:bg-[var(--color-surface-elevated)] transition-all tactile-press"
+            aria-label="我的收藏"
+            title="我的收藏"
+          >
+            <BookmarkSimple size={18} />
+            {favorites.length > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[9px] font-bold text-black">
+                {favorites.length > 9 ? '9+' : favorites.length}
+              </span>
+            )}
+          </button>
+
+          {/* Translate button */}
           <button
             onClick={toggle}
             className={`flex h-10 w-10 items-center justify-center rounded-lg border transition-all tactile-press ${
@@ -27,6 +45,7 @@ export function Header() {
           >
             <Translate size={18} />
           </button>
+
           <ThemeToggle />
         </div>
       </div>

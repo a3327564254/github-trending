@@ -1,6 +1,8 @@
-import { Star, GitFork, ArrowSquareOut, DownloadSimple } from '@phosphor-icons/react';
+import { Star, GitFork, DownloadSimple, BookmarkSimple, ShareNetwork } from '@phosphor-icons/react';
 import type { GitHubRepo } from '../types';
 import { TranslatedText } from './TranslatedText';
+import { useFavorites } from '../context/FavoritesContext';
+import { useState } from 'react';
 
 interface RepoCardProps {
   repo: GitHubRepo;
@@ -31,6 +33,10 @@ const LANGUAGE_COLORS: Record<string, string> = {
 };
 
 export function RepoCard({ repo, index }: RepoCardProps) {
+  const { toggleFavorite, isFavorite: checkIsFavorite } = useFavorites();
+  const [showCopied, setShowCopied] = useState(false);
+  const isFav = checkIsFavorite(repo.id);
+
   const formatStars = (count: number): string => {
     if (count >= 1000) return `${(count / 1000).toFixed(1)}k`;
     return count.toString();
@@ -41,8 +47,24 @@ export function RepoCard({ repo, index }: RepoCardProps) {
   const releaseUrl = `${repo.html_url}/releases`;
 
   const handleCardClick = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest('[data-download-btn]')) return;
+    if ((e.target as HTMLElement).closest('[data-action-btn]')) return;
     window.open(repo.html_url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(repo);
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(repo.html_url);
+      setShowCopied(true);
+      setTimeout(() => setShowCopied(false), 1500);
+    } catch {
+      window.open(repo.html_url, '_blank');
+    }
   };
 
   return (
@@ -50,7 +72,7 @@ export function RepoCard({ repo, index }: RepoCardProps) {
       onClick={handleCardClick}
       className={`animate-slide-up ${delayClass} group flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-4 sm:p-5 transition-all duration-200 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-card-hover)] hover:shadow-lg hover:shadow-black/5 cursor-pointer active:scale-[0.98]`}
     >
-      {/* Header: avatar + name + external link */}
+      {/* Header: avatar + name + action buttons */}
       <div className="mb-3 flex items-start justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <img
@@ -66,10 +88,38 @@ export function RepoCard({ repo, index }: RepoCardProps) {
             </h3>
           </div>
         </div>
-        <ArrowSquareOut
-          size={16}
-          className="flex-shrink-0 text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)] transition-colors mt-1"
-        />
+
+        <div className="flex items-center gap-1">
+          {/* Share button */}
+          <button
+            data-action-btn
+            onClick={handleShare}
+            className="flex h-8 w-8 items-center justify-center rounded-md text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)] transition-all tactile-press"
+            aria-label="复制链接"
+            title="复制链接"
+          >
+            {showCopied ? (
+              <span className="text-[10px] text-[var(--color-accent)]">OK</span>
+            ) : (
+              <ShareNetwork size={16} />
+            )}
+          </button>
+
+          {/* Favorite button */}
+          <button
+            data-action-btn
+            onClick={handleFavorite}
+            className={`flex h-8 w-8 items-center justify-center rounded-md transition-all tactile-press ${
+              isFav
+                ? 'text-amber-400'
+                : 'text-[var(--color-text-muted)] hover:text-amber-400 hover:bg-[var(--color-surface)]'
+            }`}
+            aria-label={isFav ? '取消收藏' : '收藏'}
+            title={isFav ? '取消收藏' : '收藏'}
+          >
+            <BookmarkSimple size={16} weight={isFav ? 'fill' : 'regular'} />
+          </button>
+        </div>
       </div>
 
       {/* Description */}
@@ -101,12 +151,11 @@ export function RepoCard({ repo, index }: RepoCardProps) {
           </span>
         </div>
 
-        {/* Download button - larger touch target on mobile */}
         <a
           href={releaseUrl}
           target="_blank"
           rel="noopener noreferrer"
-          data-download-btn
+          data-action-btn
           onClick={(e) => e.stopPropagation()}
           className="flex h-10 sm:h-8 items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-mono text-[11px] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] transition-all tactile-press flex-shrink-0"
           title="查看 Release 下载"
