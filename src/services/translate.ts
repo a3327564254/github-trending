@@ -163,10 +163,10 @@ export async function translateToChinese(text: string): Promise<string> {
     return dictResult;
   }
 
-  // Try MyMemory API
+  // Try translation API (via proxy to avoid CORS/rate limit issues)
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|zh-CN`;
-    const response = await fetchWithTimeout(url, 8000);
+    const url = `/api/translate?q=${encodeURIComponent(text)}`;
+    const response = await fetchWithTimeout(url, 10000);
 
     if (response.ok) {
       const data = await response.json();
