@@ -6,7 +6,7 @@ export function Header() {
   const { enabled, toggle } = useTranslation();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-[var(--color-header-bg)] backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-[var(--color-header-bg)] backdrop-blur-xl backdrop-saturate-150 shadow-[inset_0_-1px_0_rgba(255,255,255,0.05)]">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
         <a href="/" className="flex items-center gap-2">
           <GithubLogo size={20} weight="fill" className="text-[var(--color-text-primary)]" />
