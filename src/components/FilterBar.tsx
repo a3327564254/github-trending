@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MagnifyingGlass } from '@phosphor-icons/react';
+import { MagnifyingGlass, X } from '@phosphor-icons/react';
 import type { TimeRange } from '../types';
 
 interface FilterBarProps {
@@ -47,34 +47,35 @@ export function FilterBar({
 
   return (
     <div className="border-b border-[var(--color-border-subtle)] bg-[var(--color-background)]">
-      <div className="mx-auto max-w-7xl px-6 py-4">
-        {/* Search bar */}
+      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 sm:py-4">
+        {/* Search bar - larger on mobile */}
         <form onSubmit={handleSearch} className="mb-3">
           <div className="relative">
             <MagnifyingGlass
-              size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]"
+              size={18}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]"
             />
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="搜索仓库名称、描述、作者..."
-              className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] py-2.5 pl-10 pr-20 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-text-muted)] focus:outline-none"
+              placeholder="搜索仓库..."
+              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-input-bg)] py-3 pl-11 pr-24 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-text-muted)] focus:outline-none sm:rounded-lg sm:py-2.5 sm:pr-20"
             />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+            <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
               {searchQuery && (
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="rounded-md px-2 py-1 text-[11px] text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
+                  aria-label="清除搜索"
                 >
-                  清除
+                  <X size={16} />
                 </button>
               )}
               <button
                 type="submit"
-                className="rounded-md bg-[var(--color-accent)] px-3 py-1 text-xs font-medium text-white hover:opacity-90 transition-opacity tactile-press"
+                className="h-9 rounded-lg bg-[var(--color-accent)] px-4 text-xs font-medium text-white hover:opacity-90 transition-opacity tactile-press"
               >
                 搜索
               </button>
@@ -82,14 +83,15 @@ export function FilterBar({
           </div>
         </form>
 
-        {/* Filters row */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-1.5 rounded-lg bg-[var(--color-surface)] p-1">
+        {/* Filters - scrollable on mobile */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          {/* Time Range */}
+          <div className="flex items-center gap-1 rounded-lg bg-[var(--color-surface)] p-1 flex-shrink-0">
             {timeRanges.map((range) => (
               <button
                 key={range.value}
                 onClick={() => setTimeRange(range.value)}
-                className={`rounded-md px-3 py-1.5 font-mono text-xs font-medium transition-all tactile-press ${
+                className={`rounded-md px-3 py-2 font-mono text-xs font-medium transition-all tactile-press whitespace-nowrap ${
                   timeRange === range.value
                     ? 'bg-[var(--color-surface-elevated)] text-[var(--color-text-primary)]'
                     : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
@@ -100,31 +102,31 @@ export function FilterBar({
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
-            <select
-              value={selectedLanguage || ''}
-              onChange={(e) => setSelectedLanguage(e.target.value || null)}
-              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-1.5 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer"
-            >
-              <option value="">全部语言</option>
-              {languages.map((lang) => (
-                <option key={lang} value={lang}>{lang}</option>
-              ))}
-            </select>
+          {/* Language */}
+          <select
+            value={selectedLanguage || ''}
+            onChange={(e) => setSelectedLanguage(e.target.value || null)}
+            className="rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer flex-shrink-0"
+          >
+            <option value="">语言</option>
+            {languages.map((lang) => (
+              <option key={lang} value={lang}>{lang}</option>
+            ))}
+          </select>
 
-            <select
-              value={selectedTopic || ''}
-              onChange={(e) => setSelectedTopic(e.target.value || null)}
-              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-1.5 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer"
-            >
-              <option value="">全部主题</option>
-              {topics.map((topic) => (
-                <option key={topic} value={topic}>
-                  {topic.charAt(0).toUpperCase() + topic.slice(1).replace('-', ' ')}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Topic */}
+          <select
+            value={selectedTopic || ''}
+            onChange={(e) => setSelectedTopic(e.target.value || null)}
+            className="rounded-lg border border-[var(--color-border)] bg-[var(--color-input-bg)] px-3 py-2 font-mono text-xs text-[var(--color-text-primary)] focus:border-[var(--color-text-muted)] focus:outline-none appearance-none cursor-pointer flex-shrink-0"
+          >
+            <option value="">主题</option>
+            {topics.map((topic) => (
+              <option key={topic} value={topic}>
+                {topic.charAt(0).toUpperCase() + topic.slice(1).replace('-', ' ')}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>

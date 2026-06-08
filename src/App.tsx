@@ -84,9 +84,9 @@ function App() {
         setSearchQuery={setSearchQuery}
       />
 
-      <main className="mx-auto max-w-7xl px-6 py-8">
-        <div className="mb-6 flex items-center justify-between">
-          <p className="font-mono text-xs text-[var(--color-text-muted)]">
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mb-4 sm:mb-6 flex items-center justify-between">
+          <p className="font-mono text-[11px] sm:text-xs text-[var(--color-text-muted)]">
             {searchQuery ? (
               <>搜索 "{searchQuery}" - </>
             ) : null}
@@ -120,15 +120,15 @@ function App() {
         {!loading && !error && (
           <>
             {repos.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {repos.map((repo, index) => (
                   <RepoCard key={repo.id} repo={repo} index={index} />
                 ))}
               </div>
             ) : (
-              <div className="py-20 text-center">
-                <p className="text-lg text-[var(--color-text-secondary)]">未找到项目</p>
-                <p className="mt-2 font-mono text-xs text-[var(--color-text-muted)]">
+              <div className="py-16 sm:py-20 text-center">
+                <p className="text-base sm:text-lg text-[var(--color-text-secondary)]">未找到项目</p>
+                <p className="mt-2 font-mono text-[11px] sm:text-xs text-[var(--color-text-muted)]">
                   {searchQuery
                     ? '请尝试其他关键词'
                     : '请尝试调整筛选条件或时间范围'}
@@ -137,21 +137,21 @@ function App() {
             )}
 
             {totalCount > 20 && (
-              <div className="mt-8 flex items-center justify-center gap-2">
+              <div className="mt-6 sm:mt-8 flex items-center justify-center gap-3">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 font-mono text-xs text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)] disabled:opacity-40 disabled:cursor-not-allowed transition-all tactile-press"
+                  className="h-11 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 font-mono text-xs text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)] disabled:opacity-40 disabled:cursor-not-allowed transition-all tactile-press"
                 >
                   上一页
                 </button>
-                <span className="px-4 font-mono text-xs text-[var(--color-text-muted)]">
+                <span className="px-3 font-mono text-xs text-[var(--color-text-muted)]">
                   {page} / {Math.ceil(totalCount / 20)}
                 </span>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={page >= Math.ceil(totalCount / 20)}
-                  className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 font-mono text-xs text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)] disabled:opacity-40 disabled:cursor-not-allowed transition-all tactile-press"
+                  className="h-11 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 font-mono text-xs text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)] disabled:opacity-40 disabled:cursor-not-allowed transition-all tactile-press"
                 >
                   下一页
                 </button>

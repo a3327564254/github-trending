@@ -41,7 +41,6 @@ export function RepoCard({ repo, index }: RepoCardProps) {
   const releaseUrl = `${repo.html_url}/releases`;
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // Don't navigate if clicking the download button
     if ((e.target as HTMLElement).closest('[data-download-btn]')) return;
     window.open(repo.html_url, '_blank', 'noopener,noreferrer');
   };
@@ -49,39 +48,40 @@ export function RepoCard({ repo, index }: RepoCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className={`animate-slide-up ${delayClass} group flex flex-col rounded-lg border border-[var(--color-border)] bg-[var(--color-card-bg)] p-5 transition-all duration-200 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-card-hover)] cursor-pointer tactile-press`}
+      className={`animate-slide-up ${delayClass} group flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-4 sm:p-5 transition-all duration-200 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-card-hover)] cursor-pointer active:scale-[0.98]`}
     >
+      {/* Header: avatar + name + external link */}
       <div className="mb-3 flex items-start justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <img
             src={repo.owner.avatar_url}
             alt={`${repo.owner.login} avatar`}
-            className="h-8 w-8 rounded-md border border-[var(--color-border)] flex-shrink-0"
+            className="h-10 w-10 sm:h-8 sm:w-8 rounded-lg border border-[var(--color-border)] flex-shrink-0"
             loading="lazy"
           />
           <div className="min-w-0">
             <p className="font-mono text-[11px] text-[var(--color-text-muted)] truncate">{repo.owner.login}</p>
-            <h3 className="text-sm font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors truncate">
+            <h3 className="text-[15px] sm:text-sm font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors truncate">
               {repo.name}
             </h3>
           </div>
         </div>
         <ArrowSquareOut
           size={16}
-          className="flex-shrink-0 text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)] transition-colors mt-0.5"
+          className="flex-shrink-0 text-[var(--color-text-muted)] group-hover:text-[var(--color-text-secondary)] transition-colors mt-1"
         />
       </div>
 
-      {/* Translated description */}
+      {/* Description */}
       <TranslatedText
         text={repo.description || 'No description available'}
-        className="mb-4 flex-1 text-[13px] leading-relaxed text-[var(--color-text-secondary)] line-clamp-2"
+        className="mb-4 flex-1 text-sm sm:text-[13px] leading-relaxed text-[var(--color-text-secondary)] line-clamp-2"
         fallback="暂无描述"
       />
 
       {/* Stats + Download */}
-      <div className="flex items-center justify-between">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           {repo.language && (
             <span className="flex items-center gap-1.5 font-mono text-[11px] text-[var(--color-text-secondary)]">
               <span
@@ -101,28 +101,29 @@ export function RepoCard({ repo, index }: RepoCardProps) {
           </span>
         </div>
 
-        {/* Download / Release button */}
+        {/* Download button - larger touch target on mobile */}
         <a
           href={releaseUrl}
           target="_blank"
           rel="noopener noreferrer"
           data-download-btn
           onClick={(e) => e.stopPropagation()}
-          className="flex items-center gap-1 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 font-mono text-[11px] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] transition-all tactile-press"
+          className="flex h-10 sm:h-8 items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-mono text-[11px] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] transition-all tactile-press flex-shrink-0"
           title="查看 Release 下载"
         >
-          <DownloadSimple size={12} />
+          <DownloadSimple size={14} />
           <span>下载</span>
         </a>
       </div>
 
+      {/* Topics */}
       {repo.topics && repo.topics.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
           {repo.topics.slice(0, 3).map((topic) => (
             <TranslatedText
               key={topic}
               text={topic}
-              className="rounded-md bg-[var(--color-accent-dim)] px-2 py-0.5 font-mono text-[10px] text-[var(--color-accent)]"
+              className="rounded-md bg-[var(--color-accent-dim)] px-2 py-1 font-mono text-[10px] text-[var(--color-accent)]"
             />
           ))}
         </div>
