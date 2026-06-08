@@ -59,8 +59,8 @@ export function FilterBar({
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="搜索仓库..."
-              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-input-bg)] py-3 pl-11 pr-24 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-text-muted)] focus:outline-none sm:rounded-lg sm:py-2.5 sm:pr-20"
+              placeholder="搜索仓库名称、描述、作者..."
+              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-input-bg)] py-3 pl-11 pr-24 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:border-[var(--color-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)]/30 sm:rounded-lg sm:py-2.5 sm:pr-20"
             />
             <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
               {searchQuery && (

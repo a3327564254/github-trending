@@ -48,7 +48,7 @@ export function RepoCard({ repo, index }: RepoCardProps) {
   return (
     <div
       onClick={handleCardClick}
-      className={`animate-slide-up ${delayClass} group flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-4 sm:p-5 transition-all duration-200 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-card-hover)] cursor-pointer active:scale-[0.98]`}
+      className={`animate-slide-up ${delayClass} group flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-card-bg)] p-4 sm:p-5 transition-all duration-200 hover:border-[var(--color-text-muted)] hover:bg-[var(--color-card-hover)] hover:shadow-lg hover:shadow-black/5 cursor-pointer active:scale-[0.98]`}
     >
       {/* Header: avatar + name + external link */}
       <div className="mb-3 flex items-start justify-between gap-3">
