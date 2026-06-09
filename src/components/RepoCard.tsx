@@ -145,18 +145,18 @@ export function RepoCard({ repo, index }: RepoCardProps) {
           </span>
         </div>
 
-        {/* Download button - separate link */}
-        <a
-          href={releaseUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
+        {/* Download button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            window.open(releaseUrl, '_blank', 'noopener,noreferrer');
+          }}
           className="flex h-10 sm:h-8 items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 font-mono text-[11px] text-[var(--color-text-secondary)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] transition-all flex-shrink-0"
           title="查看 Release 下载"
         >
           <DownloadSimple size={14} />
           <span>下载</span>
-        </a>
+        </button>
       </div>
 
       {/* Topics */}
